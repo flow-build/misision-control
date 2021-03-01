@@ -4,7 +4,7 @@ const containerFactory = require('../../diConfiguration');
 describe('role repository tests', () => {
   const roleRepository = containerFactory(options)
     .resolve('roleRepository');
-  const id = 'c17bb272-e554-4037-b039-87340ebf2a3f';
+  const id = 'c17bb272-e554-4037-b039-87340ebf2acf';
 
   it('add new role', async (done) => {
     const role = await roleRepository.createRole({
