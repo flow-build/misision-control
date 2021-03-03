@@ -1,4 +1,4 @@
-const { Cockpit, Engine } = require('@fieldlink/workflow-engine');
+const { Cockpit, Engine } = require('@flowbuild/engine');
 const Knex = require('knex');
 
 class InstanceService {

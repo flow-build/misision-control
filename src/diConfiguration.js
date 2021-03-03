@@ -5,7 +5,7 @@ function loadModules(container, basePath) {
     'controllers/*.js',
     'services/*.js',
     'repositories/*.js',
-    'validators/dtos/*.js',
+    'validators/*.js',
     'middlewares/*.js',
   ],
   {

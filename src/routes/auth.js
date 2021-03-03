@@ -11,7 +11,7 @@ function generateRouter(container) {
   const notImplementedMiddleware = container
     .resolve('notImplementedMiddleware');
 
-  const groupController = container.resolve('containerController');
+  const groupController = container.resolve('groupController');
   const userController = container.resolve('roleController');
   const roleController = container.resolve('userController');
 
@@ -39,6 +39,7 @@ function generateRouter(container) {
   // authentication endpoints
   router.post('/login')
     .post('/reset_password');
+    return router;
 }
 
 module.exports = generateRouter;
