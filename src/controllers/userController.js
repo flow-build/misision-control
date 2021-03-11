@@ -11,7 +11,7 @@ function userController({
 }) {
   const { jwtSecret } = webOptions;
 
-  async function listUsers(ctx, next) {
+  async function getList(ctx, next) {
     try {
       const users = await repo.getUsers();
       ctx.body = users;
@@ -21,22 +21,22 @@ function userController({
     }
   }
 
-  async function getUserById(ctx, next) {
+  async function getById(ctx, next) {
 
   }
-  async function createUser(ctx, next) {
-
-  }
-
-  async function editUser(ctx, next) {
+  async function create(ctx, next) {
 
   }
 
-  async function deleteUser(ctx, next) {
+  async function updateById(ctx, next) {
 
   }
 
-  async function loginUser(ctx, next) {
+  async function deleteById(ctx, next) {
+
+  }
+
+  async function login(ctx, next) {
     const token = jwt.sign({
       actor_id: 123,
       claims: [],
@@ -52,12 +52,12 @@ function userController({
   }
 
   return {
-    listUsers,
-    getUserById,
-    createUser,
-    editUser,
-    deleteUser,
-    loginUser,
+    getList,
+    getById,
+    create,
+    updateById,
+    deleteById,
+    login,
     changePassword,
   };
 }

@@ -1,33 +1,36 @@
+/* eslint-disable no-unused-vars */
+const { NotImplementedExcetion } = require('../exceptions');
+
 function roleController({
   authService,
   loggerService: logger,
   roleRepository: repo,
 }) {
-  async function listRoles(ctx, next) {
-
+  async function getList(ctx, next) {
+    throw new NotImplementedExcetion();
   }
 
-  async function getRoleById(ctx, next) {
-
+  async function getById(ctx, next) {
+    throw new NotImplementedExcetion();
   }
-  async function createRole(ctx, next) {
-
-  }
-
-  async function editRole(ctx, next) {
-
+  async function create(ctx, next) {
+    throw new NotImplementedExcetion();
   }
 
-  async function deleteRole(ctx, next) {
+  async function updateById(ctx, next) {
+    throw new NotImplementedExcetion();
+  }
 
+  async function deleteById(ctx, next) {
+    throw new NotImplementedExcetion();
   }
 
   return {
-    listRoles,
-    getRoleById,
-    createRole,
-    editRole,
-    deleteRole,
+    getList,
+    getById,
+    create,
+    updateById,
+    deleteById,
   };
 }
 

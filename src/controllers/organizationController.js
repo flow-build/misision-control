@@ -10,7 +10,7 @@ function organizationController({
   organizationRepository: repo,
   organizationValidator: validator,
 }) {
-  async function listOrganizations(ctx, next) {
+  async function getList(ctx, next) {
     try {
       const result = await repo.listOrganizations();
 
@@ -23,7 +23,7 @@ function organizationController({
     }
   }
 
-  async function getOrganizationById(ctx, next) {
+  async function getById(ctx, next) {
     try {
       const { organization_id: id } = ctx.params;
 
@@ -38,7 +38,7 @@ function organizationController({
     }
   }
 
-  async function getOrganizationByName(ctx, next) {
+  async function getByName(ctx, next) {
     try {
       const requestDTO = ctx.request.body;
       validator.createOrganization(requestDTO);
@@ -58,7 +58,7 @@ function organizationController({
     }
   }
 
-  async function createOrganization(ctx, next) {
+  async function create(ctx, next) {
     try {
       const requestDTO = ctx.request.body;
       validator.createOrganization(requestDTO);
@@ -76,7 +76,7 @@ function organizationController({
     }
   }
 
-  async function editOrganization(ctx, next) {
+  async function updateById(ctx, next) {
     try {
       const { organization_id: id } = ctx.params;
       const requestDTO = ctx.request.body;
@@ -94,7 +94,7 @@ function organizationController({
     }
   }
 
-  async function deleteOrganization(ctx, next) {
+  async function deleteById(ctx, next) {
     try {
       const { organization_id: id } = ctx.params;
 
@@ -110,12 +110,12 @@ function organizationController({
   }
 
   return {
-    listOrganizations,
-    getOrganizationById,
-    getOrganizationByName,
-    createOrganization,
-    editOrganization,
-    deleteOrganization,
+    getList,
+    getById,
+    getByName,
+    create,
+    updateById,
+    deleteById,
   };
 }
 

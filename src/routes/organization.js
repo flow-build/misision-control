@@ -16,15 +16,15 @@ function generateRouter(container) {
   //   router.use(decryptTokenMiddleware);
   //   router.use(authorizationMiddlewareFactory);
 
-  router.get('/', organizationController.listOrganizations)
+  router.get('/', organizationController.getList)
     .post('/',
       bodyParser(),
-      organizationController.createOrganization)
-    .get('/:organization_id', organizationController.getOrganizationById)
+      organizationController.create)
+    .get('/:organization_id', organizationController.getById)
     .put('/:organization_id',
       bodyParser(),
-      organizationController.editOrganization)
-    .delete('/:organization_id', organizationController.deleteOrganization);
+      organizationController.updateById)
+    .delete('/:organization_id', organizationController.deleteById);
 
   return router;
 }

@@ -1,34 +1,36 @@
+/* eslint-disable no-unused-vars */
+const { NotImplementedExcetion } = require('../exceptions');
+
 function groupController({
   authService,
   loggerService: logger,
   groupRepository: repo,
 }) {
-  async function listGroups(ctx, next) {
-
+  async function getList(ctx, next) {
+    throw new NotImplementedExcetion();
   }
 
-  async function getGroupById(ctx, next) {
-
+  async function getById(ctx, next) {
+    throw new NotImplementedExcetion();
   }
-  async function createGroup(ctx, next) {
-
-  }
-
-  async function editGroup(ctx, next) {
-
+  async function create(ctx, next) {
+    throw new NotImplementedExcetion();
   }
 
-  async function deleteGroup(ctx, next) {
-
+  async function updateById(ctx, next) {
+    throw new NotImplementedExcetion();
   }
 
+  async function deleteById(ctx, next) {
+    throw new NotImplementedExcetion();
+  }
 
   return {
-    listGroups,
-    getGroupById,
-    createGroup,
-    editGroup,
-    deleteGroup,
+    getList,
+    getById,
+    create,
+    updateById,
+    deleteById,
   };
 }
 

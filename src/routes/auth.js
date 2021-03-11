@@ -22,20 +22,20 @@ function generateRouter(container) {
   groupRouter.use(decryptTokenMiddleware);
   groupRouter.get('/',
     authorizationMiddlewareFactory('group'),
-    groupController.listGroups)
+    groupController.getList)
     .post('/',
       authorizationMiddlewareFactory('group'),
       bodyParser(),
-      groupController.createGroup)
+      groupController.create)
     .get('/:group_id',
       authorizationMiddlewareFactory('group'),
-      groupController.getGroupById)
+      groupController.getById)
     .put('/:group_id',
       authorizationMiddlewareFactory('group'),
-      groupController.editGroup)
+      groupController.updateById)
     .delete('/:group_id',
       authorizationMiddlewareFactory('group'),
-      groupController.deleteGroup);
+      groupController.deleteById);
 
   // user endpoints
   const userRouter = new Router({
@@ -44,20 +44,20 @@ function generateRouter(container) {
   userRouter.use(authenticationMiddleware);
   userRouter.get('/',
     authorizationMiddlewareFactory('user'),
-    userController.listUsers)
+    userController.getList)
     .get('/:user_id',
       authorizationMiddlewareFactory('user'),
-      userController.getUserById)
+      userController.getById)
     .post('/',
       authorizationMiddlewareFactory('user'),
       bodyParser(),
-      userController.createUser)
+      userController.create)
     .put('/:user_id',
       authorizationMiddlewareFactory('user'),
-      userController.editUser)
+      userController.updateById)
     .delete('/:user_id',
       authorizationMiddlewareFactory('user'),
-      userController.deleteUser);
+      userController.deleteById);
 
   // role endpoints
   const roleRouter = new Router({
@@ -66,27 +66,27 @@ function generateRouter(container) {
   roleRouter.use(authenticationMiddleware);
   roleRouter.get('/',
     authorizationMiddlewareFactory('role'),
-    roleController.listRoles)
+    roleController.getList)
     .post('/',
       authorizationMiddlewareFactory('role'),
       bodyParser(),
-      roleController.createRole)
+      roleController.create)
     .get('/:role_id',
       authorizationMiddlewareFactory('role'),
-      roleController.getRoleById)
+      roleController.getById)
     .put('/:role_id',
       authorizationMiddlewareFactory('role'),
-      roleController.editRole)
+      roleController.updateById)
     .delete('/:role_id',
       authorizationMiddlewareFactory('role'),
-      roleController.deleteRole);
+      roleController.deleteById);
 
   router.use(userRouter.middleware());
   router.use(roleRouter.middleware());
   router.use(groupRouter.middleware());
 
   // authentication endpoints
-  router.post('/login', userController.loginUser)
+  router.post('/login', userController.login)
     .post('/reset_password',
       authenticationMiddleware,
       userController.changePassword);
