@@ -10,8 +10,8 @@ function setBaseMiddlewares(app, container) {
     allowHeaders: ['Content-Type', 'Authorization', 'Accept'],
   };
   app.use(cors(corsOptions));
+  app.use(container.resolve('loggerMiddleware'));
   app.use(container.resolve('errorMiddleware'));
-  app.use(container.resolve('authorizationMiddleware'));
 }
 
 function setRouters(app, container) {

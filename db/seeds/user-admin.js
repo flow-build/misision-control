@@ -10,6 +10,7 @@ exports.seed = function(knex) {
   return knex('user').del()
     .then(function () {
       // Inserts seed entries
+      console.log(options.cryptoOptions)
       const logger = new LoggerService({loggerOptions: options.loggerOptions});
       const cryptoService = new CryptoService({
         cryptoOptions: options.cryptoOptions,

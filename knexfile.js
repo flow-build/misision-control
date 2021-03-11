@@ -1,4 +1,5 @@
 const path = require('path');
+
 const BASE_PATH = path.join(__dirname, 'db');
 
 module.exports = {
@@ -9,23 +10,23 @@ module.exports = {
       port: process.env.POSTGRES_PORT || '5432',
       user: process.env.POSTGRES_USER || 'postgres',
       password: process.env.POSTGRES_PASSWORD || 'postgres',
-      database: process.env.POSTGRES_DATABASE || 'workflow'
+      database: process.env.POSTGRES_DATABASE || 'flowbuild_mission_control',
     },
     migrations: {
-      directory: path.join(BASE_PATH, 'migrations')
+      directory: path.join(BASE_PATH, 'migrations'),
     },
     seeds: {
-      directory: path.join(BASE_PATH, 'seeds')
-    }
+      directory: path.join(BASE_PATH, 'seeds'),
+    },
   },
   docker: {
     client: 'pg',
-    connection: `${process.env.DATABASE_CONNECTION_STRING}/flowbuild_workflow`,
+    connection: `${process.env.DATABASE_CONNECTION_STRING}/flowbuild_mission_control`,
     migrations: {
-      directory: path.join(BASE_PATH, 'migrations')
+      directory: path.join(BASE_PATH, 'migrations'),
     },
     seeds: {
-      directory: path.join(BASE_PATH, 'seeds')
-    }
-  }
-}
+      directory: path.join(BASE_PATH, 'seeds'),
+    },
+  },
+};

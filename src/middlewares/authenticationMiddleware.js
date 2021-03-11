@@ -1,27 +1,30 @@
+const jwt = require('jsonwebtoken');
 const {
-    AuthorizationException,
-    formatError: {
-      formatErrorToController,
-    },
-  } = require('../exceptions');
-  
-  function authorizationMiddleware({
-    loggerService: logger,
-    authService,
-  }) {
-    async function middleware(ctx, next) {
-      const { authorization } = ctx.request.headers;
-  
-      const key = authorization.split('=')[1];
-      if (key !== missionControlSecretKey) {
-        const err = new AuthorizationException('invalid secret key on headers');
-        formatErrorToController(ctx, err, logger);
-      } else {
-        await next();
-      }
+  AuthorizationException,
+  formatError: {
+    formatErrorToController,
+  },
+} = require('../exceptions');
+
+function authenticationMiddleware({
+  loggerService: logger,
+  webOptions,
+}) {
+  const { jwtSecret } = webOptions;
+  async function middleware(ctx, next) {
+    const { authorization } = ctx.request.headers;
+    const token = authorization.split(' ')[1];
+    try {
+      jwt.verify(token, jwtSecret);
+      const auth = jwt.decode(token, jwtSecret);
+      ctx.state.user = auth;
+      await next();
+    } catch (err) {
+      const customErr = new AuthorizationException(err);
+      formatErrorToController(ctx, customErr, logger);
     }
-    return middleware;
   }
-  
-  module.exports = authorizationMiddleware;
-  
+  return middleware;
+}
+
+module.exports = authenticationMiddleware;

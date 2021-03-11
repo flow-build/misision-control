@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable no-console */
 function getCallerFile(err) {
   try {
@@ -10,7 +11,9 @@ function getCallerFile(err) {
     while (error.stack.length) {
       callerfile = error.stack.shift().getFileName();
 
-      if (currentfile !== callerfile) return callerfile;
+      if (currentfile !== callerfile) {
+        return `${callerfile}:${error.stack.shift().getLineNumber()}:${error.stack.shift().getColumnNumber()}`;
+      }
     }
   } catch (error) {
     console.error(error);

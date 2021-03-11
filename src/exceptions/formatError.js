@@ -7,6 +7,7 @@ function formatErrorToController(ctx, exception, logger) {
         type: exception.type,
         code: exception.code,
         message: exception.message,
+        errors: exception.validation_errors,
       },
     };
     ctx.status = exception.code;

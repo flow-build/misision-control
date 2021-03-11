@@ -1,5 +1,7 @@
-const { DependencyNotFoundException } = require('../exceptions');
-const { DatabaseException } = require('../exceptions');
+const {
+  DependencyNotFoundException,
+  DatabaseException,
+} = require('../exceptions');
 
 function userRepository({
   instanceService,
@@ -28,7 +30,7 @@ function userRepository({
       throw new DatabaseException('user not exist or disabled');
     } catch (err) {
       logger.error(err);
-      throw new DatabaseException('get user by email');
+      throw new DatabaseException('get users failed');
     }
   }
 

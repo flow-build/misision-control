@@ -7,9 +7,8 @@ const Knex = require('knex');
 
 const config = require('../knexfile');
 
-
 const knex = Knex(config[process.env.NODE_ENV]);
-
+console.log(config[process.env.NODE_ENV]);
 const setTimeoutAsync = (ms) => new Promise((resolve) => {
   setTimeout(resolve, ms);
 });
@@ -17,15 +16,20 @@ const setTimeoutAsync = (ms) => new Promise((resolve) => {
 const runMigrations = async (retries, delay) => {
   for (let i = 1; i !== retries; i++) {
     try {
-      await knex.migrate.rollback(undefined, true);
-      return await knex.migrate.latest();
+      await knex.migrate.rollback(null, true)
+        .then(([batchNo, log]) => {
+          if (log.length === 0) {
+            console.log('Already at the base migration');
+          }
+          console.log(`Batch ${batchNo} rolled back: ${log.length} migrations`);
+        });
+      await knex.migrate.latest();
+      return;
     } catch (err) {
       console.warn(err.message);
       await setTimeoutAsync(delay * i);
     }
   }
-
-  throw new Error(`Unable to run migrations after ${retries} attempts.`);
 };
 
 const runSeeds = async (retries, delay) => {

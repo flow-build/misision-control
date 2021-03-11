@@ -22,7 +22,6 @@ function roleController({
 
   }
 
-
   return {
     listRoles,
     getRoleById,

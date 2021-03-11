@@ -8,9 +8,10 @@
         "test:watch": "jest --watch --coverage --runInBand --detectOpenHandles",
         "start": "node src/index.js",
         "lint": "eslint --fix --ext .js ./src",
-        "watch": "env nodemon --inspect=0.0.0.0 src/index.js"
+        "watch": "nodemon --inspect=0.0.0.0 src/index.js"
     },
     "devDependencies": {
+        "dotenv": "^8.2.0",
         "eslint": "^6.8.0",
         "eslint-config-airbnb-base": "^14.1.0",
         "eslint-config-prettier": "^6.10.1",
@@ -26,9 +27,7 @@
         "@flowbuild/engine": "^2.2.0",
         "ajv": "^6.12.6",
         "awilix": "^4.3.1",
-        "awilix-koa": "^4.0.0",
         "axios": "^0.21.1",
-        "dotenv": "^8.2.0",
         "jsonwebtoken": "^8.5.1",
         "knex": "^0.21.18",
         "koa": "^2.11.0",

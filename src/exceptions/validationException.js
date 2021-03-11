@@ -1,4 +1,6 @@
-class ValidationException extends Error {
+const BaseException = require('./baseException');
+
+class ValidationException extends BaseException {
   constructor(message, errors, error) {
     // eslint-disable-next-line max-len
     const customMessage = `error on validation: ${message}`;
