@@ -41,6 +41,7 @@ function userRepository({
           id: 'user.id',
           email: 'user.email',
           name: 'user.name',
+          encryptedPassword: 'user.password',
           'groups.name': 'group.name',
           'groups.id': 'group.id',
           'roles.name': 'role.name',

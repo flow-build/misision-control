@@ -1,54 +1,122 @@
-const jwt = require('jsonwebtoken');
 const {
-  formatError,
+  formatError: {
+    formatErrorToController,
+  },
 } = require('../exceptions');
 
 function userController({
   authService,
   loggerService: logger,
   userRepository: repo,
-  webOptions,
+  userValidator: validator,
 }) {
-  const { jwtSecret } = webOptions;
-
   async function getList(ctx, next) {
     try {
-      const users = await repo.getUsers();
-      ctx.body = users;
+      const result = await repo.getUsers();
+
+      ctx.body = result;
       ctx.status = 200;
+      await next();
     } catch (err) {
-      formatError.formatErrorToController(ctx, err, logger);
+      formatErrorToController(ctx, err, logger);
+      logger.error('get users failed', err);
     }
   }
 
   async function getById(ctx, next) {
+    try {
+      const { user_id: id } = ctx.params;
 
+      const result = await repo.getUserById({ id });
+      result.encryptedPassword = undefined;
+
+      ctx.body = result;
+      ctx.status = 200;
+      await next();
+    } catch (err) {
+      formatErrorToController(ctx, err, logger);
+      logger.error('get user by id failed', err);
+    }
   }
   async function create(ctx, next) {
+    try {
+      const requestDTO = ctx.request.body;
+      validator.createUser(requestDTO);
 
+      const result = await authService.createUser(requestDTO);
+
+      ctx.body = result;
+      ctx.status = 201;
+      await next();
+    } catch (err) {
+      formatErrorToController(ctx, err, logger);
+      logger.error('create user failed', err);
+    }
   }
 
   async function updateById(ctx, next) {
+    try {
+      const { user_id: id } = ctx.params;
+      const requestDTO = ctx.request.body;
 
+      requestDTO.id = id;
+
+      const result = await repo.updateUser(requestDTO);
+
+      ctx.body = result;
+      ctx.status = 200;
+      await next();
+    } catch (err) {
+      formatErrorToController(ctx, err, logger);
+      logger.error('update user failed', err);
+    }
   }
 
   async function deleteById(ctx, next) {
+    try {
+      const { user_id: id } = ctx.params;
 
+      const result = await repo.disableUser({ id });
+
+      ctx.body = result;
+      ctx.status = 200;
+      await next();
+    } catch (err) {
+      formatErrorToController(ctx, err, logger);
+      logger.error('delete user failed', err);
+    }
   }
 
   async function login(ctx, next) {
-    const token = jwt.sign({
-      actor_id: 123,
-      claims: [],
-    }, jwtSecret, { expiresIn: '3h' });
-    ctx.body = {
-      token,
-    };
-    ctx.status = 200;
+    try {
+      const { body: requestDTO } = ctx.request;
+
+      validator.loginUser(requestDTO);
+      const token = await authService.loginUser(requestDTO);
+
+      ctx.body = { token };
+      ctx.status = 201;
+      await next();
+    } catch (err) {
+      formatErrorToController(ctx, err, logger);
+      logger.error('delete user failed', err);
+    }
   }
 
   async function changePassword(ctx, next) {
+    try {
+      const { body: requestDTO } = ctx.request;
+      requestDTO.id = ctx.state.user.id;
+      validator.changePassword(requestDTO);
+      const result = await authService.changePassword(requestDTO);
 
+      ctx.body = result;
+      ctx.status = 201;
+      await next();
+    } catch (err) {
+      formatErrorToController(ctx, err, logger);
+      logger.error('delete user failed', err);
+    }
   }
 
   return {
