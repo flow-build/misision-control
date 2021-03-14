@@ -19,7 +19,7 @@ function organizationController({
       await next();
     } catch (err) {
       formatErrorToController(ctx, err, logger);
-      logger.error('get workflows failed', err);
+      logger.error('get organizations failed', err);
     }
   }
 
