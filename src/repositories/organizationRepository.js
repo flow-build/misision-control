@@ -54,6 +54,27 @@ function organizationRepository({
     }
   }
 
+  async function getOrganizationByName({ name }) {
+    try {
+      const organizations = await db.select({
+        name: 'name',
+        id: 'id',
+        url: 'url',
+        secretKey: 'secret_key',
+      }).from('organization')
+        .whereNull('disabled_at')
+        .andWhere('name', '=', name)
+        .first();
+      if (organizations) {
+        return organizations;
+      }
+      throw new DatabaseException("Organization don't exist or is disabled");
+    } catch (err) {
+      logger.error(err);
+      throw new DatabaseException('get organization by id failed');
+    }
+  }
+
   async function createOrganization(organization) {
     try {
       const dateTime = new Date();
@@ -117,6 +138,7 @@ function organizationRepository({
   return {
     listOrganizations,
     getOrganization,
+    getOrganizationByName,
     createOrganization,
     updateOrganization,
     disableOrganization,

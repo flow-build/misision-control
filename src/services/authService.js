@@ -53,8 +53,9 @@ class AuthService {
 
     const user = await this.userRepository.getUserByEmail({ email });
     const encryptedPassword = this.cryptoService.encryptPayload(password);
-
+    
     if (user.encryptedPassword === encryptedPassword) {
+      user.encryptedPassword = undefined;
       const encryptedUser = this.cryptoService.encryptPayload(user);
       const token = jwt.sign({ payload: encryptedUser },
         this.jwtSecret,

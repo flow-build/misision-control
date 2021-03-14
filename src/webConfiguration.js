@@ -2,6 +2,7 @@ const Koa = require('koa');
 const cors = require('koa2-cors');
 const http2Server = require('http2');
 const routes = require('./routes');
+const observer = require('./routes/observer')
 
 function setBaseMiddlewares(app, container) {
   const corsOptions = {
@@ -45,6 +46,18 @@ function setupServerInstance(app, container) {
   return app;
 }
 
+function setupDelegatorMiddlewares(container, app) {
+  const authenticationMiddleware = container
+    .resolve('authenticationMiddleware');
+
+  const getObserver = container
+    .resolve('observerMiddleware');
+  app.use(authenticationMiddleware);
+  app.use(getObserver);
+  app.use(saveLogMiddleware);
+  app.use(delegateMiddleware);
+}
+
 function setup(container) {
   const app = new Koa();
 
@@ -54,11 +67,13 @@ function setup(container) {
   });
 
   setBaseMiddlewares(app, container);
-
   setRouters(app, container);
+
+  setupDelegatorMiddlewares(container, app);
   const server = setupServerInstance(app, container);
 
   return server;
 }
 
 module.exports = setup;
+
