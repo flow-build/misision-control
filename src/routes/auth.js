@@ -5,8 +5,6 @@ function generateRouter(container) {
   const router = new Router({ prefix: '/auth' });
   const authenticationMiddleware = container
     .resolve('authenticationMiddleware');
-  const decryptTokenMiddleware = container
-    .resolve('decryptTokenMiddleware');
   const authorizationMiddlewareFactory = container
     .resolve('authorizationMiddleware');
 
@@ -19,7 +17,6 @@ function generateRouter(container) {
     prefix: '/groups',
   });
   groupRouter.use(authenticationMiddleware);
-  groupRouter.use(decryptTokenMiddleware);
   groupRouter.get('/',
     authorizationMiddlewareFactory('group'),
     groupController.getList)
@@ -53,6 +50,7 @@ function generateRouter(container) {
       bodyParser(),
       userController.create)
     .put('/:user_id',
+      bodyParser(),
       authorizationMiddlewareFactory('user'),
       userController.updateById)
     .delete('/:user_id',
@@ -86,9 +84,10 @@ function generateRouter(container) {
   router.use(groupRouter.middleware());
 
   // authentication endpoints
-  router.post('/login', userController.login)
+  router.post('/login', bodyParser(), userController.login)
     .post('/reset_password',
       authenticationMiddleware,
+      bodyParser(),
       userController.changePassword);
 
   return router;

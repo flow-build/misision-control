@@ -6,15 +6,12 @@ function generateRouter(container) {
 
   const authenticationMiddleware = container
     .resolve('authenticationMiddleware');
-  const decryptTokenMiddleware = container
-    .resolve('decryptTokenMiddleware');
   const authorizationMiddlewareFactory = container
     .resolve('authorizationMiddleware');
   const organizationController = container.resolve('organizationController');
 
-  //   router.use(authenticationMiddleware);
-  //   router.use(decryptTokenMiddleware);
-  //   router.use(authorizationMiddlewareFactory);
+  router.use(authenticationMiddleware);
+  router.use(authorizationMiddlewareFactory('organization'));
 
   router.get('/', organizationController.getList)
     .post('/',
