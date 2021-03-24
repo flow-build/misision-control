@@ -24,6 +24,7 @@
             "skipFiles": [
                 "<node_internals>/**"
             ],
+            "envFile": "${workspaceFolder}/.env",
             "program": "${workspaceFolder}/src/start-dev.js"
         }
     ]

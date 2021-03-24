@@ -25,7 +25,7 @@ const featureFlags = {
 
 const webOptions = {
   jwtSecret: process.env.JWT_KEY || '1234',
-  port: process.env.PORT || 3000,
+  port: process.env.PORT || 3200,
 };
 
 const options = {

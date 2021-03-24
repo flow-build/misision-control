@@ -10,13 +10,12 @@ function userController({
   userRepository: repo,
   userValidator: validator,
 }) {
-  async function getList(ctx, next) {
+  async function getList(ctx) {
     try {
       const result = await repo.getUsers();
 
       ctx.body = result;
       ctx.status = 200;
-      await next();
     } catch (err) {
       formatErrorToController(ctx, err, logger);
       logger.error('get users failed', err);
@@ -38,7 +37,7 @@ function userController({
       logger.error('get user by id failed', err);
     }
   }
-  async function create(ctx, next) {
+  async function create(ctx) {
     try {
       const requestDTO = ctx.request.body;
       validator.createUser(requestDTO);
@@ -47,14 +46,13 @@ function userController({
 
       ctx.body = result;
       ctx.status = 201;
-      await next();
     } catch (err) {
       formatErrorToController(ctx, err, logger);
       logger.error('create user failed', err);
     }
   }
 
-  async function updateById(ctx, next) {
+  async function updateById(ctx) {
     try {
       const { user_id: id } = ctx.params;
       const requestDTO = ctx.request.body;
@@ -65,14 +63,13 @@ function userController({
 
       ctx.body = result;
       ctx.status = 200;
-      await next();
     } catch (err) {
       formatErrorToController(ctx, err, logger);
       logger.error('update user failed', err);
     }
   }
 
-  async function deleteById(ctx, next) {
+  async function deleteById(ctx) {
     try {
       const { user_id: id } = ctx.params;
 
@@ -80,14 +77,13 @@ function userController({
 
       ctx.body = result;
       ctx.status = 200;
-      await next();
     } catch (err) {
       formatErrorToController(ctx, err, logger);
       logger.error('delete user failed', err);
     }
   }
 
-  async function login(ctx, next) {
+  async function login(ctx) {
     try {
       const { body: requestDTO } = ctx.request;
 
@@ -96,14 +92,13 @@ function userController({
 
       ctx.body = { token };
       ctx.status = 201;
-      await next();
     } catch (err) {
       formatErrorToController(ctx, err, logger);
       logger.error('delete user failed', err);
     }
   }
 
-  async function changePassword(ctx, next) {
+  async function changePassword(ctx) {
     try {
       const { body: requestDTO } = ctx.request;
       requestDTO.id = ctx.state.user.id;
@@ -112,7 +107,6 @@ function userController({
 
       ctx.body = result;
       ctx.status = 201;
-      await next();
     } catch (err) {
       formatErrorToController(ctx, err, logger);
       logger.error('delete user failed', err);

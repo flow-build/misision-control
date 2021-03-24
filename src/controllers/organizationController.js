@@ -10,20 +10,19 @@ function organizationController({
   organizationRepository: repo,
   organizationValidator: validator,
 }) {
-  async function getList(ctx, next) {
+  async function getList(ctx) {
     try {
       const result = await repo.listOrganizations();
 
       ctx.body = result;
       ctx.status = 200;
-      await next();
     } catch (err) {
       formatErrorToController(ctx, err, logger);
       logger.error('get organizations failed', err);
     }
   }
 
-  async function getById(ctx, next) {
+  async function getById(ctx) {
     try {
       const { organization_id: id } = ctx.params;
 
@@ -31,14 +30,13 @@ function organizationController({
 
       ctx.body = result;
       ctx.status = 200;
-      await next();
     } catch (err) {
       formatErrorToController(ctx, err, logger);
       logger.error('get workflows failed', err);
     }
   }
 
-  async function getByName(ctx, next) {
+  async function getByName(ctx) {
     try {
       const requestDTO = ctx.request.body;
       validator.createOrganization(requestDTO);
@@ -51,14 +49,13 @@ function organizationController({
 
       ctx.body = result;
       ctx.status = 200;
-      await next();
     } catch (err) {
       formatErrorToController(ctx, err, logger);
       logger.error('get workflows failed', err);
     }
   }
 
-  async function create(ctx, next) {
+  async function create(ctx) {
     try {
       const requestDTO = ctx.request.body;
       validator.createOrganization(requestDTO);
@@ -69,14 +66,13 @@ function organizationController({
 
       ctx.body = result;
       ctx.status = 200;
-      await next();
     } catch (err) {
       formatErrorToController(ctx, err, logger);
       logger.error('get workflows failed', err);
     }
   }
 
-  async function updateById(ctx, next) {
+  async function updateById(ctx) {
     try {
       const { organization_id: id } = ctx.params;
       const requestDTO = ctx.request.body;
@@ -87,14 +83,13 @@ function organizationController({
 
       ctx.body = result;
       ctx.status = 200;
-      await next();
     } catch (err) {
       formatErrorToController(ctx, err, logger);
       logger.error('get workflows failed', err);
     }
   }
 
-  async function deleteById(ctx, next) {
+  async function deleteById(ctx) {
     try {
       const { organization_id: id } = ctx.params;
 
@@ -102,7 +97,6 @@ function organizationController({
 
       ctx.body = result;
       ctx.status = 200;
-      await next();
     } catch (err) {
       formatErrorToController(ctx, err, logger);
       logger.error('get workflows failed', err);
